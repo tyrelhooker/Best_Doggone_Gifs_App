@@ -1,10 +1,10 @@
 // Create an array of dog breeds
 var dogBreedArr = [
   "boxer", 
-  "cavalier Spaniel", 
+  "cavalier spaniel", 
   "puggle", 
   "chihuahua", 
-  "laborador", 
+  "labrador", 
   "pit bull", 
   "great dane", 
   "siberian husky", 
@@ -14,11 +14,9 @@ var dogBreedArr = [
 // Dynamically create buttons from array
 // Function for displaying movie data
 function renderButtons() {
-
   // Deleting the movie buttons prior to adding new movie buttons
   // (this is necessary otherwise we will have repeat buttons)
   $("#dogBtnBox").empty();
-
   // Looping through the array of dogBreedsArr
   for (var i = 0; i < dogBreedArr.length; i++) {
     // Then dynamicaly generating buttons for each dog in the array.
@@ -38,7 +36,7 @@ function renderButtons() {
 $(document).on("click", ".dogBreed", function() {
   // Clear Gifs Box on button click
   $('#dogGifsBox').empty();
-  // Grab and store the data-breed property from the buttons
+  // Grab the data-breed property from the buttons, removes spaces, adds dog reference to further limit search to dogs in giphy and adds + to concatentate str in url. 
   var dog = $(this).attr("data-breed").split(' ').join('+') + ("+dog");
   // Construct a queryURL using the dog name
   var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
@@ -62,19 +60,27 @@ $(document).on("click", ".dogBreed", function() {
       for (var i = 0; i < results.length; i++) {
         if (results[i].rating !== "r") {
           // Store div tag 
-          var dogDiv = $("<div>");
+          var dogDiv = $("<div class='dogDiv'>");
+          var originalURL = results[i].images.fixed_height_still.url;
+          var stillImage = results[i].images.fixed_height_still.url;
+          var animatedGif = results[i].images.fixed_height.url;
 
-        //   // Create a paragraph tag with the gif rating
-        //   var p = $("<p>").text("Rating: " + results[i].rating);
+          // Create a paragraph tag with the gif rating
+          var p = $("<p>").text("Rating: " + results[i].rating);
 
           // Create and store img tag
-          var dogImage = $("<img>");
+          var dogImage = $("<img class='gif'>");
           // Set the src attribute of the image to a property pulled off the result item
-          dogImage.attr("src", results[i].images.fixed_height.url);
+          dogImage.attr("src", originalURL);
+          dogImage.attr("data-still", stillImage);
+          dogImage.attr("data-animate", animatedGif)
+          dogImage.attr("data-state", "still");
 
         //   // Append the paragraph and image tag to the dogDiv
         //   dogDiv.append(p);
           dogDiv.append(dogImage);
+          dogDiv.append(p);
+          console.log("dogImage" + dogImage);
 
         //   // Append the dogDiv to the HTML page in the #dogGif div
           $("#dogGifsBox").append(dogDiv);
@@ -82,17 +88,43 @@ $(document).on("click", ".dogBreed", function() {
       }
       
     });
+  
 });
 
 $("#addDogBreed").on("click", function(event) {
+  $("#duplicateBtn").hide();
   // Prevent form from trying to submit itself
   event.preventDefault();
   // Grabs text from input box
   var newDogBreed = $("#dogBreedInput").val().trim().toLowerCase();
-  // Adds user innput dog breed to the global dogBreedArr
-  dogBreedArr.push(newDogBreed);
-  // re-renders the dogBreedArr buttons to page
-  renderButtons();
+  // Checks to see if user input is in dogBreedArr
+  if (dogBreedArr.indexOf(newDogBreed) === -1) { 
+    // Adds user innput dog breed to the global dogBreedArr
+    dogBreedArr.push(newDogBreed);
+    // re-renders the dogBreedArr buttons to page
+    renderButtons();
+    // clears user input box
+    $("#dogBreedInput").val(" ");
+    } else {
+      $("#duplicateBtn").show();
+      $("#dogBreedInput").val(" ");
+    }
 });
 
+$(document).on("click", ".gif", function() {
+  // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+  var state = $(this).attr("data-state");
+  // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+  // Then, set the image's data-state to animate
+  // Else set src to the data-still value
+  if (state === "still") {
+    $(this).attr("src", $(this).attr("data-animate"));
+    $(this).attr("data-state", "animate");
+  } else {
+    $(this).attr("src", $(this).attr("data-still"));
+    $(this).attr("data-state", "still");
+  }
+});
+
+$("#duplicateBtn").hide();
 renderButtons();

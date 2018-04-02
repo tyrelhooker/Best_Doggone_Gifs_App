@@ -1,0 +1,27 @@
+.container {
+  /* max-width: 900px; */
+}
+
+#title {
+  text-align: center;
+  background: lightblue;
+  padding: 10px;
+}
+
+.dogDiv {
+  display: inline-block;
+  margin: 10px;
+}
+
+h1 {
+  text-align: center;
+}
+
+button {
+  background: yellow;
+  margin: 5px;
+}
+
+#dogBtnBox {
+  text-align: center;
+}
