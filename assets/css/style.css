@@ -25,3 +25,8 @@ button {
 #dogBtnBox {
   text-align: center;
 }
+
+#addDogBreed {
+  margin: 10px;
+  background: lightblue;
+}
