@@ -8,7 +8,7 @@ var dogBreedArr = [
   "pit bull", 
   "great dane", 
   "siberian husky", 
-  "blue heeler"
+  "beagle"
 ];
 
 // Dynamically create buttons from array
@@ -36,8 +36,10 @@ function renderButtons() {
 
 //Add click event listener to all buttons
 $(document).on("click", ".dogBreed", function() {
+  // Clear Gifs Box on button click
+  $('#dogGifsBox').empty();
   // Grab and store the data-breed property from the buttons
-  var dog = $(this).attr("data-breed") + (" dog");
+  var dog = $(this).attr("data-breed").split(' ').join('+') + ("+dog");
   // Construct a queryURL using the dog name
   var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
       dog + "&api_key=DmiWe4jPGJ3gDvH3mFCDQ0Mnhnn5jtTW&limit=10";
@@ -76,16 +78,21 @@ $(document).on("click", ".dogBreed", function() {
 
         //   // Append the dogDiv to the HTML page in the #dogGif div
           $("#dogGifsBox").append(dogDiv);
-
-
-
-
-
-
         }
       }
       
     });
+});
+
+$("#addDogBreed").on("click", function(event) {
+  // Prevent form from trying to submit itself
+  event.preventDefault();
+  // Grabs text from input box
+  var newDogBreed = $("#dogBreedInput").val().trim().toLowerCase();
+  // Adds user innput dog breed to the global dogBreedArr
+  dogBreedArr.push(newDogBreed);
+  // re-renders the dogBreedArr buttons to page
+  renderButtons();
 });
 
 renderButtons();
