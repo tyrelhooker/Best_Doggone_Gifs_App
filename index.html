@@ -6,31 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- <link rel="stylesheet" href="assets/css/reset.css"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Chicle" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Boogaloo" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Doggone Gifs</title>
   </head>
   <body>
     <div class="container">
-      <div class="row text-center" id="title">
         <h1>Best Doggone Gifs</h1>
-      </div>
+    
       <div class="row">
         <!-- Dynamically created buttons here -->
-        <div id="dogBtnBox"></div>
+        <div class="col-9" id="dogBtnBox"></div>
       </div>
       <div class="row">
         <div class="col-9">
           <!-- Dynamically adds gifs here -->
           <div id="dogGifsBox"></div>
         </div>
-        <div class="col-3">
+        <div class="col-3" id="inputBox">
           <!-- Gif Dog Search submit form here -->
           <div id="duplicateBtn">That breed has already been submitted. Please add a different breed!</div>
           <form id="dogBreed-form">
             <label for="dogBreedInput">Add a Dog Breed!</label>
             <input type="text" id="dogBreedInput"><br>
             <!-- Button triggers new dog breed to be added to buttons -->
-            <input id="addDogBreed" type="submit" value="Add a best friend">
+            <input id="addDogBreed" type="submit" value="Click to add">
           </form>
         </div>
       </div>
